@@ -1,0 +1,15 @@
+.order-card {
+    flex-basis: calc(33.33% - 40px);
+    background-color: #f5f5f5;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+  }
+  
+  .order-card h2 {
+    margin-top: 0;
+  }
+  
+  .order-card p {
+    margin-bottom: 0;
+  }
