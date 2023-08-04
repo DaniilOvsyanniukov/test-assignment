@@ -4,13 +4,13 @@ import './alertPopup.css';
 interface AlertPopupProps {
     message: string;
     delay: number;
-    onHide: () => void;  // new prop
+    onHide: () => void;
 }
 
 const AlertPopup: React.FC<AlertPopupProps> = ({ message, delay, onHide }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
-            onHide();  // call onHide after the delay
+            onHide();
         }, delay);
         return () => clearTimeout(timer);
     }, [delay, onHide]);

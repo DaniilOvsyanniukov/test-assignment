@@ -18,6 +18,11 @@
   
   display: flex;
   flex-direction: column;
+
+  user-select: none; /* Non-standard, Firefox */
+  -moz-user-select: none; /* Standard syntax */
+  -webkit-user-select: none; /* Chrome, Safari and Opera syntax */
+  -ms-user-select: none; /* IE/Edge syntax */
 }
 .siteName{
   display: flex; 
