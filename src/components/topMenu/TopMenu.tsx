@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import { Link } from 'react-router-dom';
 import "./TopMenu.css";
+import { ReactComponent as Logo } from '../../img/logo.svg';
 
 const TopMenu = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -27,8 +29,13 @@ const TopMenu = () => {
 
     return (
         <header className="topMenu">
-            <div>Inventory</div>
-            <div>{currentDate.toLocaleString()} | Sessions: {sessionCount}</div>
+            <Link className='siteName' to="/orders">
+                <Logo className='logoStile'/>
+                Inventory</Link>
+            <div className='headerInfo'>
+              <div>{currentDate.toLocaleString()}</div>
+              <div>Sessions: {sessionCount}</div>
+            </div>
         </header>
     );
 };
