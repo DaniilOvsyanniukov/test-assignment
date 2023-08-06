@@ -10,6 +10,7 @@
   flex-direction: column;
   align-items: center;
   font-family: 'Roboto', sans-serif;
+  z-index: 1
 }
 
 .navigationMenu ul {
@@ -29,7 +30,7 @@
 }
 
 .navigationMenu ul li a.active {
-  border-bottom: 2px solid green;
+  border-bottom: 2px solid rgb(3, 149, 3);
 }
 
 .navigationMenu ul li a:hover {

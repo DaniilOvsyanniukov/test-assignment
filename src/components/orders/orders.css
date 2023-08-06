@@ -1,4 +1,42 @@
-.orders {
-  margin-top: 50px;
-  margin-left: 200px;
+.orders-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 150px;
+  right: 0;
+  padding-top: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  background-color: rgb(240, 243, 247);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.orders-title{
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  align-items: center;
+}
+
+.orders-title h1 {
+  font-size: 20px;
+}
+.orders-green-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: #85bd47;
+  border: 2px solid #7dae4b;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.orders-plus-Icon{
+  width: 6px;
+  height: 6px;
+  fill: white;
 }

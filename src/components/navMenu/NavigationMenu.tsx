@@ -4,7 +4,7 @@ import './NavigationMenu.css';
 
 import { ReactComponent as GearIcon } from '../../img/gear.svg';
 import avatar from '../../img/avatar.jpg';
-import AlertPopup from '../alertPopup/alertPopup';
+import AlertPopup from '../popups/alertPopup/alertPopup';
 
 const NavigationMenu: React.FC = () => {
     const location = useLocation();

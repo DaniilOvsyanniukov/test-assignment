@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import OrderCard from './OrderCard';
 import axios from 'axios';
+import AlertPopup from '../popups/alertPopup/alertPopup';
+import { ReactComponent as PlusIcon } from '../../img/plus.svg';
 import './orders.css';
 
 interface Order {
@@ -31,6 +33,19 @@ interface Product {
 
 const Orders: React.FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleOpenPopup = () => {
+        setShowPopup(true);
+    }
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    }
+
+    const handleDeleteOrder = (orderId: number) => {
+        setOrders(orders => orders.filter(order => order.id !== orderId));
+    }
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/orders')
@@ -44,9 +59,17 @@ const Orders: React.FC = () => {
 
     return (
         <div className="orders-container">
+            <div className="orders-title">
+                <button className="orders-green-button" onClick={handleOpenPopup}>
+                   <PlusIcon className="orders-plus-Icon"/>
+                </button>
+                <h1>Приходы / {orders.length}</h1>
+            </div>
+            
             {orders.map(order => (
-                <OrderCard key={order.id} order={order} />
+                <OrderCard key={order.id} order={order} onDelete={handleDeleteOrder} />
             ))}
+            {showPopup && <AlertPopup message="Эта функция находится в разработке" delay={3000} onHide={handleClosePopup}/>}
         </div>
     );
 };

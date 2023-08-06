@@ -18,6 +18,13 @@ app.use(cors());
 
 const orders = [
   {
+    id: 11,
+    title: 'Длинное предлинное при очень очень длинное название прихода',
+    date: '2017-06-29 12:09:33',
+    description: 'desc',
+    get products () { return products }
+  },
+  {
     id: 1,
     title: 'Order 1',
     date: '2017-06-29 12:09:33',
@@ -87,6 +94,19 @@ app.get('/api/orders', (req, res) => {
 
 app.get('/api/products', (req, res) => {
   res.send(products);
+});
+
+app.delete('/api/orders/:id', (req, res) => {
+  const orderId = req.params.id;
+
+  const index = orders.findIndex(order => order.id == orderId);
+
+  if(index !== -1) {
+    orders.splice(index, 1);
+    res.status(200).send({ message: `Order with id ${orderId} deleted`});
+  } else {
+    res.status(404).send({ message: `Order with id ${orderId} not found`});
+  }
 });
 
 let sessionCount = 0;
