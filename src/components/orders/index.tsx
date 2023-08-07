@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import OrderCard from './OrderCard';
+import OrderDetails from './OrdersDetails'; 
 import axios from 'axios';
 import AlertPopup from '../popups/alertPopup/alertPopup';
 import { ReactComponent as PlusIcon } from '../../img/plus.svg';
 import './orders.css';
 
-interface Order {
+export interface Order {
     id: number;
     title: string;
     date: string;
     products: Product[];
 }
 
-interface Product {
+export interface Product {
     id: number;
     serialNumber: number;
     isNew: number;
@@ -34,6 +35,10 @@ interface Product {
 const Orders: React.FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [listOpen, setListOpen] = useState<number| null>(null);
 
     const handleOpenPopup = () => {
         setShowPopup(true);
@@ -42,6 +47,18 @@ const Orders: React.FC = () => {
     const handleClosePopup = () => {
         setShowPopup(false);
     }
+
+    const toggleCollapse = (order: Order) => {
+        if (selectedOrder && selectedOrder.id === order.id) {
+            setSelectedOrder(null);
+            setListOpen(null);
+            setIsCollapsed(false);
+        } else {
+            setSelectedOrder(order);
+            setListOpen(order.id);
+            setIsCollapsed(true);
+        }
+    };
 
     const handleDeleteOrder = (orderId: number) => {
         setOrders(orders => orders.filter(order => order.id !== orderId));
@@ -55,7 +72,7 @@ const Orders: React.FC = () => {
             .catch(error => {
                 console.log('Ошибка при получении данных с сервера:', error);
             });
-    }, []);
+    }, [orders]);
 
     return (
         <div className="orders-container">
@@ -67,9 +84,26 @@ const Orders: React.FC = () => {
             </div>
             
             {orders.map(order => (
-                <OrderCard key={order.id} order={order} onDelete={handleDeleteOrder} />
+                <OrderCard 
+                key={order.id} 
+                order={order} 
+                onDelete={handleDeleteOrder} 
+                isCollapsed={isCollapsed}
+                onToggleCollapse={() => toggleCollapse(order)}
+                showDeletePopup = {showDeletePopup}
+                setShowDeletePopup={setShowDeletePopup}   
+                listOpen={listOpen}
+                />
             ))}
-            {showPopup && <AlertPopup message="Эта функция находится в разработке" delay={3000} onHide={handleClosePopup}/>}
+            {showPopup && 
+            <AlertPopup 
+            message="Эта функция находится в разработке" 
+            delay={3000} 
+            onHide={handleClosePopup}/>}
+            {selectedOrder && 
+            <OrderDetails 
+            order={selectedOrder}
+            onClose={() => toggleCollapse(selectedOrder)}/>}
         </div>
     );
 };

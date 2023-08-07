@@ -4,12 +4,21 @@
   align-items: center;
   background-color: #f5f5f5;
   margin-top: 10px;
-  padding: 20px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
-  height: 50px;
+  height: 90px;
   min-width: 750px;
   border: 1px solid #ccc; 
   border-radius: 5px; 
+  overflow: hidden;
+}
+
+.order-card-info{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  height: 100%;
+  width: 100%;
 }
 
 .order-card-title {
@@ -45,6 +54,9 @@
   height: 16px;
   fill: #c7cccc;
 }
+.order-card-delete-Icon:hover {
+  fill: red;
+}
 
 .order-card-delete-button {
   background: none;
@@ -69,4 +81,33 @@
   fill: #546e7a;
   width: 20px;
   height: 20px;
+}
+
+.order-card.collapsed {
+  max-width: 325px;
+  min-width: 325px;
+}
+
+.order-card.collapsed .order-card-title,
+.order-card.collapsed .order-card-value,
+.order-card.collapsed .order-card-delete-button {
+  display: none;
+}
+
+.order-card-arrow-icon {
+  fill: white;
+}
+
+.order-card-arrow-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 100%;
+  background-color: #cfd8dc;
+  
+}
+.order-card-empty-container{
+  width: 20px;
+  height: 100%;
 }

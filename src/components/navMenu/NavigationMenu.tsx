@@ -39,7 +39,7 @@ const NavigationMenu: React.FC = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/products" onClick={handlePlaceholderClick} className={location.pathname !== "/products" ? "" : ""}>
+                    <NavLink to="/products" className={location.pathname === "/products" ? "activeLink" : ""}>
                         Продукты
                     </NavLink>
                 </li>

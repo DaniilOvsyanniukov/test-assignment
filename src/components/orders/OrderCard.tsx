@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ReactComponent as BinIcon } from '../../img/bin.svg';
 import { ReactComponent as ListIcon } from '../../img/list.svg';
+import { ReactComponent as ArrowIcon } from '../../img/chevron.svg';
 import DeleteConfirmationPopup from '../popups/DeleteConfirmationPopup/DeleteConfirmationPopup';
 import './orderCard.css';
 
@@ -25,9 +26,20 @@ interface Currency {
 interface OrderCardProps {
     order: Order;
     onDelete: (id: number) => void;
+    isCollapsed: boolean;
+    onToggleCollapse: () => void;
+    showDeletePopup: boolean;
+    setShowDeletePopup: (boolean: boolean) => void;
+    listOpen: number | null;
 }
 
-const OrderCard: React.FC<OrderCardProps> = ({ order, onDelete }) => {
+const OrderCard: React.FC<OrderCardProps> = ({ 
+    order, 
+    onDelete, 
+    isCollapsed, 
+    onToggleCollapse,
+    listOpen
+}) => {
     const total = order.products.reduce((prev, product) => {
         product.price.forEach(price => {
             prev[price.symbol] = (prev[price.symbol] || 0) + price.value;
@@ -36,11 +48,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, onDelete }) => {
     }, {} as Record<string, number>);
 
     const [showDeletePopup, setShowDeletePopup] = useState(false);
-
-    const handleDelete = () => {
-        setShowDeletePopup(true);
-    };
-
+    
     const handleConfirmDelete = async () => {
         try {
             const response = await axios.delete(`api/orders/${order.id}`);
@@ -61,9 +69,10 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, onDelete }) => {
     const dateOption2 = formattedDate.toLocaleDateString('ru-RU', { day: '2-digit', month: 'short', year: 'numeric' }); // 04 / Сен / 2019
 
     return (
-        <div className="order-card">
-            <h2 className="order-card-title">{order.title}</h2>
-            <button className="order-card-open-list-button">
+        <div className={`order-card ${isCollapsed ? 'collapsed' : ''}`}>
+            <div className="order-card-info">
+            <h3 className="order-card-title">{order.title}</h3>
+            <button className="order-card-open-list-button" onClick={onToggleCollapse}>
                 <ListIcon  className="order-card-open-list-icon"/>
             </button>
             <div className="order-card-products-num">
@@ -79,10 +88,17 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, onDelete }) => {
                    <p key={symbol}>{symbol}: {value}</p>
                 ))}
             </div>
-            <button className="order-card-delete-button" onClick={handleDelete}>
+            <button className="order-card-delete-button" 
+                onClick={() => {
+                    setShowDeletePopup(true)
+                }}
+                >
                 <BinIcon className="order-card-delete-Icon"/>
             </button>
+            
             {showDeletePopup && <DeleteConfirmationPopup title={order.title} onCancel={() => setShowDeletePopup(false)} onConfirm={handleConfirmDelete} />}
+            </div>
+            {isCollapsed && listOpen === order.id? <div className="order-card-arrow-container"><ArrowIcon className="order-card-arrow-icon"/></div> : <div className="order-card-empty-container"></div>}
         </div>
     );
 };

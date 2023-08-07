@@ -3,90 +3,21 @@ const http = require('http');
 const cors = require('cors');
 const socketIO = require('socket.io');
 
+const { orders, products } = require('./data');
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
     cors: {
         origin: "*",
-        methods: ["GET", "POST"]
+        methods: ["GET", "POST", "DELETE"]
     }
 });
 
 const port = 3001;
 
 app.use(cors());
-
-const orders = [
-  {
-    id: 11,
-    title: 'Длинное предлинное при очень очень длинное название прихода',
-    date: '2017-06-29 12:09:33',
-    description: 'desc',
-    get products () { return products }
-  },
-  {
-    id: 1,
-    title: 'Order 1',
-    date: '2017-06-29 12:09:33',
-    description: 'desc',
-    get products () { return products }
-  },
-  {
-    id: 2,
-    title: 'Order 2',
-    date: '2017-06-29 12:09:33',
-    description: 'desc',
-    get products () { return products }
-  },
-  {
-    id: 3,
-    title: 'Order 3',
-    date: '2017-06-29 12:09:33',
-    description: 'desc',
-    get products () { return products },
-  }
-]
-
-const products = [
-  {
-    id: 1,
-    serialNumber: 1234,
-    isNew: 1,
-    photo: 'pathToFile.jpg',
-    title: 'Product 1',
-    type: 'Monitors',
-    specification: 'Specification 1',
-    guarantee: {
-      start: '2017-06-29 12:09:33',
-      end: '2017-06-29 12:09:33'
-    },
-    price: [
-      {value: 100, symbol: 'USD', isDefault: 0},
-      {value: 2600, symbol: 'UAH', isDefault: 1}
-    ],
-    order: 1,
-    date: '2017-06-29 12:09:33'
-  },
-  {
-    id: 2,
-    serialNumber: 1234,
-    isNew: 1,
-    photo: 'pathToFile.jpg',
-    title: 'Product 1',
-    type: 'Monitors',
-    specification: 'Specification 1',
-    guarantee: {
-      start: '2017-06-29 12:09:33',
-      end: '2017-06-29 12:09:33'
-    },
-    price: [
-      {value: 100, symbol: 'USD', isDefault: 0},
-      {value: 2600, symbol: 'UAH', isDefault: 1}
-    ],
-    order: 2,
-    date: '2017-06-29 12:09:33'
-  }
-]
+let sessionCount = 0;
 
 app.get('/api/orders', (req, res) => {
   res.send(orders);
@@ -109,7 +40,35 @@ app.delete('/api/orders/:id', (req, res) => {
   }
 });
 
-let sessionCount = 0;
+app.delete('/api/:orders/products/:id', (req, res) => {
+  const orderId = req.params.orders;
+  const productId = req.params.id;
+
+  const orderIndex = orders.findIndex(order => order.id == orderId);
+  const productIndex = products.findIndex(product => product.id == productId);
+
+  if(orderIndex !== -1 && productIndex !== -1) {
+    orders[orderIndex].products.splice(productIndex, 1);
+    res.status(200).send({ message: `Product ${productId} in order ${orderId} was deleted`});
+  } else {
+    res.status(404).send({ message: `Product ${productId} in order ${orderId} not found`});
+  }
+});
+
+app.delete('/api/products/:id', (req, res) => {
+  const productId = req.params.id;
+
+  const index = products.findIndex(product => product.id == productId);
+
+  if(index !== -1) {
+    products.splice(index, 1);
+    res.status(200).send({ message: `Product with id ${productId} deleted`});
+  } else {
+    res.status(404).send({ message: `Product with id ${productId} not found`});
+  }
+});
+
+
 
 io.on('connection', (socket) => {
     sessionCount++;

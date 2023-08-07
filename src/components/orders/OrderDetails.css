@@ -1,0 +1,81 @@
+.order-details {
+    position: absolute;
+    top: 164px;
+    left:400px;
+    width: 500px; 
+    background-color: white;
+    border-left: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+}
+
+.order-details-close-button {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    cursor: pointer;
+    background-color: white;
+    height: 25px;
+    width: 25px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+}
+
+.order-details-close-button-icon {
+    opacity: 0.6;
+    height: 10px;
+    width: 10px;
+    fill: grey;
+}
+
+.order-details-product-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f5f5f5;
+    margin-top: 10px;
+    padding: 20px;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+    /* min-width: 250px; */
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .order-details-product-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .order-details-product-card > p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #546e7a; 
+  }
+
+  .order-details-delete-Icon {
+    width: 16px;
+    height: 16px;
+    fill: #c7cccc;
+  }
+  .order-details-delete-Icon:hover {
+    fill: red;
+  }
+  
+  .order-details-delete-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    margin-left: 10px;
+  }
