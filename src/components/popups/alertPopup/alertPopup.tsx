@@ -1,25 +1,27 @@
 import React, { useEffect } from 'react';
-import './alertPopup.css';
 
-interface AlertPopupProps {
-    message: string;
-    delay: number;
-    onHide: () => void;
-}
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../../app/Store';
 
-const AlertPopup: React.FC<AlertPopupProps> = ({ message, delay, onHide }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onHide();
-        }, delay);
-        return () => clearTimeout(timer);
-    }, [delay, onHide]);
+import { closeAlertPopup } from '../../../features/MainSlice';
+import './AlertPopup.css';
 
-    return (
-        <div className="alertPopup">
-            {message}
-        </div>
-    );
+const AlertPopup: React.FC = () => {
+  const dispatch = useDispatch();
+  const delay: number = 3000;
+  const isAlertPopup = useSelector((state: RootState) => state.datastore.isAlertPopup);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(closeAlertPopup());
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [isAlertPopup, dispatch]);
+
+  return (
+    <div className="alertPopup">
+      Эта функция находится в разработке
+    </div>
+  );
 };
 
 export default AlertPopup;

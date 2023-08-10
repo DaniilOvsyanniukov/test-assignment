@@ -62,3 +62,5 @@ const products = [
     date: '2017-06-29 12:09:33'
   }
 ]
+
+module.exports = { orders, products };

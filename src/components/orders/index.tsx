@@ -1,111 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import OrderCard from './OrderCard';
-import OrderDetails from './OrdersDetails'; 
-import axios from 'axios';
-import AlertPopup from '../popups/alertPopup/alertPopup';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import {  openAlertPopup } from '../../features/MainSlice';
+import OrderCard from './orderCard/OrderCard';
+import OrderDetails from './orderDetails/OrdersDetails';
+import useOrders from '../../hooks/UseOrders';
 import { ReactComponent as PlusIcon } from '../../img/plus.svg';
-import './orders.css';
-
-export interface Order {
-    id: number;
-    title: string;
-    date: string;
-    products: Product[];
-}
-
-export interface Product {
-    id: number;
-    serialNumber: number;
-    isNew: number;
-    photo: string;
-    title: string;
-    type: string;
-    specification: string;
-    guarantee: {
-        start: string;
-        end: string;
-    };
-    price: [
-        { value: number, symbol: string, isDefault: number }
-    ];
-    order: number;
-    date: string;
-}
+import './Orders.css';
 
 const Orders: React.FC = () => {
-    const [orders, setOrders] = useState<Order[]>([]);
-    const [showPopup, setShowPopup] = useState(false);
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-    const [showDeletePopup, setShowDeletePopup] = useState(false);
-    const [listOpen, setListOpen] = useState<number| null>(null);
+  const dispatch = useDispatch();
+  const { orders, isOrderDetailsToggle } = useOrders();
 
-    const handleOpenPopup = () => {
-        setShowPopup(true);
-    }
+  return (
+    <div className="orders-container">
+      <div className="orders-title">
+        <button className="orders-green-button" onClick={() => dispatch(openAlertPopup())}>
+          <PlusIcon className="orders-plus-Icon" />
+        </button>
+        <h1>
+          Приходы / {orders.length}
+        </h1>
+      </div>
 
-    const handleClosePopup = () => {
-        setShowPopup(false);
-    }
-
-    const toggleCollapse = (order: Order) => {
-        if (selectedOrder && selectedOrder.id === order.id) {
-            setSelectedOrder(null);
-            setListOpen(null);
-            setIsCollapsed(false);
-        } else {
-            setSelectedOrder(order);
-            setListOpen(order.id);
-            setIsCollapsed(true);
-        }
-    };
-
-    const handleDeleteOrder = (orderId: number) => {
-        setOrders(orders => orders.filter(order => order.id !== orderId));
-    }
-
-    useEffect(() => {
-        axios.get('http://localhost:3001/api/orders')
-            .then(response => {
-                setOrders(response.data);
-            })
-            .catch(error => {
-                console.log('Ошибка при получении данных с сервера:', error);
-            });
-    }, [orders]);
-
-    return (
-        <div className="orders-container">
-            <div className="orders-title">
-                <button className="orders-green-button" onClick={handleOpenPopup}>
-                   <PlusIcon className="orders-plus-Icon"/>
-                </button>
-                <h1>Приходы / {orders.length}</h1>
-            </div>
-            
-            {orders.map(order => (
-                <OrderCard 
-                key={order.id} 
-                order={order} 
-                onDelete={handleDeleteOrder} 
-                isCollapsed={isCollapsed}
-                onToggleCollapse={() => toggleCollapse(order)}
-                showDeletePopup = {showDeletePopup}
-                setShowDeletePopup={setShowDeletePopup}   
-                listOpen={listOpen}
-                />
-            ))}
-            {showPopup && 
-            <AlertPopup 
-            message="Эта функция находится в разработке" 
-            delay={3000} 
-            onHide={handleClosePopup}/>}
-            {selectedOrder && 
-            <OrderDetails 
-            order={selectedOrder}
-            onClose={() => toggleCollapse(selectedOrder)}/>}
-        </div>
-    );
+      {orders.map((order) => (
+        <OrderCard key={order.id} orderId={order.id} />
+      ))}
+      {isOrderDetailsToggle
+            && <OrderDetails />}
+    </div>
+  );
 };
 
 export default Orders;

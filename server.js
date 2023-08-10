@@ -3,7 +3,7 @@ const http = require('http');
 const cors = require('cors');
 const socketIO = require('socket.io');
 
-const { orders, products } = require('./data');
+const { orders, products } = require('./src/database');
 
 const app = express();
 const server = http.createServer(app);

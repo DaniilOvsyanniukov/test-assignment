@@ -1,43 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
-import "./TopMenu.css";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/Store';
+import AlertPopup from '../popups/alertPopup/AlertPopup';
+import DeleteConfirmationPopup from '../popups/DeleteConfirmationPopup/DeleteConfirmationPopup';
+import CurrentDate from './currentDate/CurrentDate';
+import SessionsCount from './sessionsCount/SessionsCount';
+import './TopMenu.css';
 import { ReactComponent as Logo } from '../../img/logo.svg';
 
-const TopMenu = () => {
-    const [currentDate, setCurrentDate] = useState(new Date());
-    const [sessionCount, setSessionCount] = useState(0);
+function TopMenu() {
+  const isPopupOpen = useSelector((state: RootState) => state.confirmPopup.isOpen);
+  const isAlertPopup = useSelector((state: RootState) => state.datastore.isAlertPopup);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentDate(new Date());
-        }, 1000);
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
-
-    useEffect(() => {
-        const socket = io('http://localhost:3001');
-        socket.on('sessionCount', (count) => {
-            setSessionCount(count);
-        });
-        return () => {
-            socket.disconnect();
-        };
-    }, []);
-
-    return (
-        <header className="topMenu">
-            <Link className='siteName' to="/orders">
-                <Logo className='logoStile'/>
-                Inventory</Link>
-            <div className='headerInfo'>
-              <div>{currentDate.toLocaleString()}</div>
-              <div>Sessions: {sessionCount}</div>
-            </div>
-        </header>
-    );
-};
+  return (
+    <header className="topMenu">
+      <Link className="siteName" to="/orders">
+        <Logo className="logoStile" />
+        Inventory
+      </Link>
+      <div className="headerInfo">
+        <CurrentDate/>
+        <SessionsCount/>
+      </div>
+      {isAlertPopup
+            && <AlertPopup />}
+      {isPopupOpen && <DeleteConfirmationPopup />}
+    </header>
+  );
+}
 
 export default TopMenu;
