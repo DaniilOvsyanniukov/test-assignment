@@ -10,7 +10,7 @@ function useOrders() {
   const isOrderDetailsToggle = useSelector((state: RootState) => state.datastore.isOrderDetailsToggle);
 
   useEffect(() => {
-    axios.get(process.env.REACT_APP_API_URL + '/api/orders')
+    axios.get(process.env.REACT_APP_SERVER_URL + '/api/orders')
       .then((response) => {
         dispatch(setOrder(response.data));
       })
