@@ -3,7 +3,7 @@ const http = require('http');
 const cors = require('cors');
 const socketIO = require('socket.io');
 
-const { orders, products } = require('./data');
+const { orders, products } = require('./src/database');
 
 const app = express();
 const server = http.createServer(app);
@@ -27,8 +27,8 @@ app.get('/api/products', (req, res) => {
   res.send(products);
 });
 
-app.delete('/api/orders/:id', (req, res) => {
-  const orderId = req.params.id;
+app.delete('/api/orders/:orderId', (req, res) => {
+  const orderId = req.params.orderId;
 
   const index = orders.findIndex(order => order.id == orderId);
 
@@ -40,9 +40,9 @@ app.delete('/api/orders/:id', (req, res) => {
   }
 });
 
-app.delete('/api/:orders/products/:id', (req, res) => {
-  const orderId = req.params.orders;
-  const productId = req.params.id;
+app.delete('/api/:orderId/products/:productId', (req, res) => {
+  const orderId = req.params.orderId;
+  const productId = req.params.productId;
 
   const orderIndex = orders.findIndex(order => order.id == orderId);
   const productIndex = products.findIndex(product => product.id == productId);
@@ -55,8 +55,8 @@ app.delete('/api/:orders/products/:id', (req, res) => {
   }
 });
 
-app.delete('/api/products/:id', (req, res) => {
-  const productId = req.params.id;
+app.delete('/api/products/:productId', (req, res) => {
+  const productId = req.params.productId;
 
   const index = products.findIndex(product => product.id == productId);
 

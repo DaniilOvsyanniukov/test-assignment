@@ -1,26 +1,29 @@
-import React from 'react';
+import './App.css';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './app/Store';
 import TopMenu from './components/topMenu/TopMenu';
 import NavigationMenu from './components/navMenu/NavigationMenu';
-import Orders from './components/orders';
-import Products from './components/products';
+const Orders = React.lazy(() => import('./components/orders'));
+const Products = React.lazy(() => import('./components/products'));
 
-import './App.css';
-
-const App: React.FC = () => {
-  return (
-    <Router>
-      <div>
-        <TopMenu />
-        <NavigationMenu />
+const App: React.FC = () => (
+  <Provider store={store}>
+  <Router>
+    <div>
+      <TopMenu />
+      <NavigationMenu />
+      <Suspense fallback={<div>Завантаження...</div>}>
         <Routes>
           <Route index path="/" element={<Orders />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/products" element={<Products/>} />
+          <Route path="/products" element={<Products />} />
         </Routes>
-      </div>
-    </Router>
-  );
-};
+      </Suspense>
+    </div>
+  </Router>
+</Provider>
+);
 
 export default App;

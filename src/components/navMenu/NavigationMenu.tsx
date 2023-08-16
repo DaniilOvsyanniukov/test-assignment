@@ -1,62 +1,57 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
+import { RootState } from '../../app/Store';
+import { openAlertPopup } from '../../features/MainSlice';
 import './NavigationMenu.css';
 
 import { ReactComponent as GearIcon } from '../../img/gear.svg';
 import avatar from '../../img/avatar.jpg';
-import AlertPopup from '../popups/alertPopup/alertPopup';
+import AlertPopup from '../popups/alertPopup/AlertPopup';
 
 const NavigationMenu: React.FC = () => {
-    const location = useLocation();
-    const [showPopup, setShowPopup] = useState(false);
+  const dispatch = useDispatch();
+  const isAlertPopup = useSelector((state: RootState) => state.datastore.isAlertPopup);
+  const location = useLocation();
 
-    const handlePlaceholderClick = (event: React.MouseEvent) => {
-        event.preventDefault();
-        setShowPopup(true);
-    }
-
-    const hidePopup = () => {
-        setShowPopup(false);
-    }
-
-    return (
-        <div className="navigationMenu">
-            <div className="avatarContainer">
-                <img src={avatar} className="avatar" alt="user avatar" />
-                <button onClick={handlePlaceholderClick} className="settingsButton">
-                   <GearIcon className="settingsIcon" />
-                </button>
-            </div>
-            <ul>
-                <li>
-                    <NavLink to="/orders" className={location.pathname === "/orders" ? "activeLink" : ""}>
-                        Приходы
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/groups" onClick={handlePlaceholderClick} className={location.pathname !== "/groups" ? "" : ""}>
-                        Группы
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/products" className={location.pathname === "/products" ? "activeLink" : ""}>
-                        Продукты
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/users" onClick={handlePlaceholderClick} className={location.pathname !== "/users" ? "" : ""}>
-                        Пользователи
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/settings" onClick={handlePlaceholderClick} className={location.pathname !== "/settings" ? "" : ""}>
-                        Настройки
-                    </NavLink>
-                </li>
-            </ul>
-            {showPopup && <AlertPopup message="Эта функция находится в разработке" delay={3000} onHide={hidePopup}/>}
-        </div>
-    );
+  return (
+    <div className="navigationMenu">
+      <div className="avatarContainer">
+        <img src={avatar} className="avatar" alt="user avatar" />
+        <button onClick={() => dispatch(openAlertPopup())} className="settingsButton">
+          <GearIcon className="settingsIcon" />
+        </button>
+      </div>
+      <ul>
+        <li>
+          <NavLink to="/orders" className={location.pathname === '/orders' ? 'activeLink' : ''}>
+            Приходы
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/groups" onClick={() => dispatch(openAlertPopup())} className={location.pathname !== '/groups' ? '' : ''}>
+            Группы
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/products" className={location.pathname === '/products' ? 'activeLink' : ''}>
+            Продукты
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/users" onClick={() => dispatch(openAlertPopup())} className={location.pathname !== '/users' ? '' : ''}>
+            Пользователи
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/settings" onClick={() => dispatch(openAlertPopup())} className={location.pathname !== '/settings' ? '' : ''}>
+            Настройки
+          </NavLink>
+        </li>
+      </ul>
+      {isAlertPopup && <AlertPopup />}
+    </div>
+  );
 };
 
 export default NavigationMenu;
