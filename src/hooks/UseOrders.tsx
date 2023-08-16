@@ -3,10 +3,11 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/Store';
 import { setOrder } from '../features/MainSlice';
+import { Order } from '../types/Types';
 
 function useOrders() {
   const dispatch = useDispatch();
-  const orders = useSelector((state: RootState) => state.datastore.order);
+  const orders: Order[] = useSelector((state: RootState) => state.datastore.order);
   const isOrderDetailsToggle = useSelector((state: RootState) => state.datastore.isOrderDetailsToggle);
 
   useEffect(() => {

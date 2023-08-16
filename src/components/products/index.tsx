@@ -1,7 +1,7 @@
 import React from 'react';
 import useProducts from '../../hooks/UseProducts';
 import ProductCard from './productCard/ProductCard';
-import './Psroducts.css';
+import './Products.css';
 
 const Products: React.FC = () => {
   const { products, filter, setFilter } = useProducts();

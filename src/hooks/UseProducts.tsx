@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProduct } from '../features/MainSlice';
+import { Product } from '../types/Types';
 import { RootState } from '../app/Store';
 
 function useProducts() {
   const dispatch = useDispatch();
-  const products = useSelector((state: RootState) => state.datastore.product);
+  const products: Product[] = useSelector((state: RootState) => state.datastore.product);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
