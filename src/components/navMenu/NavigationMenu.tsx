@@ -7,7 +7,7 @@ import './NavigationMenu.css';
 
 import { ReactComponent as GearIcon } from '../../img/gear.svg';
 import avatar from '../../img/avatar.jpg';
-import AlertPopup from '../popups/alertPopup/AlertPopup';
+import AlertPopup from '../popups/alertPopup/AslertPopup';
 
 const NavigationMenu: React.FC = () => {
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/Store';
 
 import { closeAlertPopup } from '../../../features/MainSlice';
-import './AlertPopup.css';
+import './AslertPopup.css';
 
 const AlertPopup: React.FC = () => {
   const dispatch = useDispatch();

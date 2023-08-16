@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/Store';
-import AlertPopup from '../popups/alertPopup/AlertPopup';
+import AlertPopup from '../popups/alertPopup/AslertPopup';
 import DeleteConfirmationPopup from '../popups/DeleteConfirmationPopup/DeleteConfirmationPopup';
 import CurrentDate from './currentDate/CurrentDate';
 import SessionsCount from './sessionsCount/SessionsCount';

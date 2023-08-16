@@ -5,7 +5,7 @@ import OrderCard from './orderCard/OrderCard';
 import OrderDetails from './orderDetails/OrdersDetails';
 import useOrders from '../../hooks/UseOrders';
 import { ReactComponent as PlusIcon } from '../../img/plus.svg';
-import './Orders.css';
+import './Osrders.css';
 
 const Orders: React.FC = () => {
   const dispatch = useDispatch();
