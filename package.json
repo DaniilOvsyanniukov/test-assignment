@@ -8,7 +8,12 @@
       "client": "cd client && npm start",
       "install-server": "cd server && npm install",
       "install-client": "cd client && npm install",
-      "install": "npm run install-server && npm run install-client"
+      "install": "npm run install-server && npm run install-client",
+      "server:build": "cd server && docker build -t server-image .",
+      "client:build": "cd client && docker build -t client-image .",
+      "server:start": "docker run -d -p 3001:3001 --name server-container server-image",
+      "client:start": "docker run -d -p 3002:80 --name client-container client-image",
+      "dev:docker": "npm run server:build && npm run client:build && npm run server:start && npm run client:start"
       
     }
   }

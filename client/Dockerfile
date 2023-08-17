@@ -1,4 +1,3 @@
-# Використовуємо офіційний образ Node.js
 FROM node:14 AS build
 WORKDIR /app
 
