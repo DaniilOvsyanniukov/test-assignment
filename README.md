@@ -34,6 +34,9 @@ npm run start
 Запустить оба (React app & Express server) одновременно:
 npm run dev
 
+Запустить оба (React app & Express server) одновременно через Docker:
+npm run dev:docker
+
 Сборка
 Соберите проект для production:
 npm run build
