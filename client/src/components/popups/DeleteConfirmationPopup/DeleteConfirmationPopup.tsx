@@ -19,7 +19,7 @@ const DeleteConfirmationPopup: React.FC = () => {
 
   const deleteOrder = async () => {
     try {
-      const response = await axios.delete(`api/orders/${OrderId}`);
+      const response = await axios.delete(process.env.REACT_APP_SERVER_URL + `/api/orders/${OrderId}`);
       if (response.status === 200) {
         dispatch(deleteStoreOrder(OrderId));
         console.log('Order successfully deleted');
@@ -34,7 +34,7 @@ const DeleteConfirmationPopup: React.FC = () => {
 
   const deleteProduct = async () => {
     try {
-      const response = await axios.delete(`/api/products/${ProductId}`);
+      const response = await axios.delete(process.env.REACT_APP_SERVER_URL + `/api/products/${ProductId}`);
       if (response.status === 200) {
         dispatch(deleteStoreProduct(ProductId));
         console.log('Product successfully deleted');
@@ -49,7 +49,7 @@ const DeleteConfirmationPopup: React.FC = () => {
 
   const deleteProductInOrder = async () => {
     try {
-      const response = await axios.delete(`api/${OrderId}/products/${ProductId}`);
+      const response = await axios.delete(process.env.REACT_APP_SERVER_URL + `/api/${OrderId}/products/${ProductId}`);
       if (response.status === 200) {
         dispatch(deleteProductFromOrder({ orderId: OrderId, productId: ProductId }));
         console.log('Product successfully deleted');

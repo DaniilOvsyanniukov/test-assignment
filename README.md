@@ -14,12 +14,13 @@ git clone https://github.com/DaniilOvsyanniukov/test-assignment.git
 cd test-assignment
 
 Установите необходимые зависимости:
-npm install
+npm run install
 
 Конфигурация
 Перед тем как запустить приложение, необходимо создать файл конфигурации .env в корневой директории проекта. Создайте файл с именем .env и добавьте следующие строки:
 
 REACT_APP_SERVER_URL=http://localhost:3001
+PORT=3001
 
 Это укажет приложению, какой URL использовать для взаимодействия с сервером.
 

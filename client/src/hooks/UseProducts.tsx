@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProduct } from '../features/MainSlice';
 import { Product } from '../types/Types';
@@ -10,9 +11,13 @@ function useProducts() {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    fetch('/api/products')
-      .then((res) => res.json())
-      .then((data) => dispatch(setProduct(data)));
+    axios.get(process.env.REACT_APP_SERVER_URL + '/api/products')
+      .then((response) => {
+        dispatch(setProduct(response.data));
+      })
+      .catch((error) => {
+        console.log('Ошибка при получении данных с сервера:', error);
+      });
   }, [dispatch]);
 
   const filteredProducts = filter ? products.filter((product) => product.type === filter) : products;
